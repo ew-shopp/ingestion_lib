@@ -9,7 +9,7 @@ import re
 import csv
 from collections import Counter
 
-import fastText
+import fasttext
 import numpy as np
 from tqdm import tqdm
 
