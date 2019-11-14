@@ -1,22 +1,18 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
 RUN apt-get --yes update
-RUN apt-get --yes install python; python --version
-RUN apt-get --yes install python-pip; pip --version
-RUN pip install --upgrade pip
-
-RUN apt-get --yes install build-essential python-dev
-RUN apt-get --yes install wget
-RUN pip install  pyopenssl ndg-httpsclient pyasn1
-
+RUN apt-get --yes install python3-pip; 
 
 # Application
-RUN pip install --no-cache-dir pandas
+RUN pip3 install --no-cache-dir fasttext
+RUN pip3 install --no-cache-dir tqdm
+RUN pip3 install --no-cache-dir -U scikit-learn
+RUN pip3 install --no-cache-dir pandas
+RUN pip3 install --no-cache-dir "dask[dataframe]" --upgrade
 
 COPY ./py_app /code
 COPY ./bash_scripts /code
 COPY ./common_scripts /code
 
 ENTRYPOINT ["/code/main.sh"]
-
 
