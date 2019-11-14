@@ -11,6 +11,7 @@ RUN pip3 install --no-cache-dir pandas
 RUN pip3 install --no-cache-dir "dask[dataframe]" --upgrade
 
 COPY ./py_app /code
+COPY ./common_py /code
 COPY ./bash_scripts /code
 COPY ./common_scripts /code
 
