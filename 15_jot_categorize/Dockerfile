@@ -1,7 +1,7 @@
 FROM ubuntu:18.04
 
-RUN apt-get --yes update
-RUN apt-get --yes install python3-pip; 
+RUN apt-get --yes update --fix-missing
+RUN apt-get --yes install python3-pip --fix-missing 
 
 # Application
 RUN pip3 install --no-cache-dir fasttext
