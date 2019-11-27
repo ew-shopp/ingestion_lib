@@ -1,7 +1,3 @@
-
-
-
-
 # Developed in Python 3.6.7
 
 # Code for running join of a large keyword-csv-file with a smaller category-csv-file from command line.
@@ -15,8 +11,7 @@ def main_merge(args):
     # Read keyword-csv-file as dast dataframe (sections in RAM)
     kw_filename = args.path_kw
     print(f"Loading keywords from: {kw_filename}")
-    #kw_data = dd.read_csv(kw_filename, sep=args.kw_delimiter)
-    kw_data = pd.read_csv(kw_filename, sep=args.kw_delimiter)
+    kw_data = dd.read_csv(kw_filename, sep=args.kw_delimiter)
 
     # Read category-csv-file as panda dataframe (all in RAM)
     cat_filename = args.path_cat
@@ -25,8 +20,7 @@ def main_merge(args):
 
     # Make filter vector
     print(f"Filter rows based col: {args.kw_filter_column} starts with: {args.kw_filter_starts_with}")
-    #row_select = kw_data.apply(lambda row: row[args.kw_filter_column].startswith(args.kw_filter_starts_with), axis=1, meta=(None, 'bool'))
-    row_select = kw_data.apply(lambda row: row[args.kw_filter_column].startswith(args.kw_filter_starts_with), axis=1)
+    row_select = kw_data.apply(lambda row: row[args.kw_filter_column].startswith(args.kw_filter_starts_with), axis=1, meta=(None, 'bool'))
 
     # Make merged data
     merged_data = kw_data[row_select].merge(cat_data, how='left', left_on=args.kw_column, right_on=args.cat_column)
@@ -34,8 +28,7 @@ def main_merge(args):
     # Write merged data to separate file
     out_filename = args.path_out
     print(f"Writing data to: {out_filename}")
-    #merged_data.to_csv(out_filename, single_file=True, index=False, sep=args.out_delimiter)
-    merged_data.to_csv(out_filename, index=False, sep=args.out_delimiter)
+    merged_data.to_csv(out_filename, single_file=True, index=False, sep=args.out_delimiter)
 
     print("DONE!")
 
