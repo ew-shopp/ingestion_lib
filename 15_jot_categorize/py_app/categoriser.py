@@ -55,7 +55,28 @@ def main_categorise(args):
 
     # run categorizer
     n_categories = args.n_categories
-    keyword_categories = categorizer.categorize(keywords, n_categories=n_categories)
+
+    kw_chunk_size = 10000
+    kw_start_idx = 0
+    kw_end_idx = kw_chunk_size
+    more_kw = True
+    keyword_categories = []
+    while more_kw :
+        if kw_start_idx < len(keywords):
+            if kw_end_idx > len(keywords):
+                kw_end_idx = len(keywords)
+            print(f"kw chunk start: {kw_start_idx} end:{kw_end_idx}")
+            chunk_keyword_categories = categorizer.categorize(keywords[kw_start_idx:kw_end_idx], n_categories=n_categories)
+            keyword_categories = keyword_categories + chunk_keyword_categories
+            kw_start_idx += kw_chunk_size
+            kw_end_idx += kw_chunk_size
+        else:
+            more_kw = False
+
+    #keyword_categories = categorizer.categorize(keywords, n_categories=n_categories)
+    print(f"kw_categories type: {type(keyword_categories)} len:{len(keyword_categories)}")
+    print(f"kw_categories[0] type: {type(keyword_categories[0])} len:{len(keyword_categories[0])} val:{keyword_categories[0]}")
+    print(f"kw_categories[0][0] type: {type(keyword_categories[0][0])} len:{len(keyword_categories[0][0])} val:{keyword_categories[0][0]}")
     output_filename = args.path_output
     print(f"Writing categories to: {output_filename}")
     with open(output_filename, "w", encoding="utf8") as outfile:
