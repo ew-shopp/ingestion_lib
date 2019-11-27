@@ -87,6 +87,47 @@ def load_csv_column(path, column_name, delimiter=','):
     return fields
 
 
+def load_csv_column_and_filter(path, column_name, filter_column_name, filter_start_value, delimiter=','):
+    """
+    Load the contents of a column in a csv file if it matches filter_accept_value.
+
+    Args:
+        path: Path to the csv file containing the column.
+        delimiter: The delimiter used in the csv file.
+        column_name: The name of the target column.
+        filter_column_name: The name of the filter value column.
+        filter_start_value: The filter column has to start with this value.
+
+    Returns:
+        A list of unique column fields as strings.
+    """
+    unique_fields = set()
+    # go over all the csv rows
+    with open(path) as csv_file:
+        #csv_reader = csv.reader(csv_file, delimiter=delimiter)
+        # Replace all NULL elements in the input csv with empty string. This is the case if no keywords are given.
+        csv_reader = csv.reader((line.replace('\0','') for line in csv_file), delimiter=delimiter)
+        line_count = 0
+        valid_line_count = 0
+        for row in csv_reader:
+            #print(f"{line_count} | row: {row}")
+            if line_count == 0:
+                # first line - get the column index from the header
+                keyword_header = row
+                # print(f"Analysing header row: {keyword_header}")
+                column_index = keyword_header.index(column_name)
+                filter_column_index = keyword_header.index(filter_column_name)
+            else:
+                # Check if row has accept_value
+                if row[filter_column_index].startswith(filter_start_value):
+                    # get the value
+                    valid_line_count += 1
+                    unique_fields.add(row[column_index])
+            line_count += 1
+    print(f"unique_fields:{len(unique_fields)} | valid_lines:{valid_line_count} | tot_lines:{line_count}")
+    return list(unique_fields)
+
+
 def sif_embedding(keywords, model, word_frequencies, n_principal_components=1, alpha=1e-3, principal_components=None,
     return_components=False):
     """

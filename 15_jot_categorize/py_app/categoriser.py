@@ -44,9 +44,11 @@ def main_categorise(args):
     # get keywords
     keyword_filename = args.path_keywords
     print(f"Loading keywords from: {keyword_filename}")
-    keywords = ck.load_csv_column(
+    keywords = ck.load_csv_column_and_filter(
         keyword_filename,
         args.keywords_column,
+        args.keywords_filter_column,
+        args.keywords_filter_starts_with,
         delimiter = args.keywords_delimiter)
     print(f'Loaded {len(keywords)} keywords.')
 
@@ -90,6 +92,8 @@ if __name__ == '__main__':
     argparser.add_argument('--categories_id_column', '-cic', type=str, default='CategoryID', help='Name of column containing category ids in the categories csv file. (default: \'CategoryID\')')
     argparser.add_argument('--keywords_delimiter', '-kd', type=str, default=',', help='Delimiter used in the keywords csv file. (default: \',\')')
     argparser.add_argument('--keywords_column', '-kc', type=str, default='Keyword', help='Name of column containing keywords in the keywords csv file. (default: \'Keyword\')')
+    argparser.add_argument('--keywords_filter_column', '-kfc', type=str, default='Country', help='Name of column containing string for filtering rows in the keywords csv file. (default: \'Country\')')
+    argparser.add_argument('--keywords_filter_starts_with', '-kfa', type=str, default='', help='Value to check if filter column starts with. (default: \'\')')
 
     args = argparser.parse_args()
 
