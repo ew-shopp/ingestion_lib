@@ -103,7 +103,7 @@ def load_csv_column_and_filter(path, column_name, filter_column_name, filter_sta
     """
     unique_fields = set()
     # go over all the csv rows
-    with open(path) as csv_file:
+    with open(path, encoding="utf-8") as csv_file:
         #csv_reader = csv.reader(csv_file, delimiter=delimiter)
         # Replace all NULL elements in the input csv with empty string. This is the case if no keywords are given.
         csv_reader = csv.reader((line.replace('\0','') for line in csv_file), delimiter=delimiter)
