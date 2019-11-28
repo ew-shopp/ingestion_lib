@@ -56,7 +56,7 @@ def main_categorise(args):
     # run categorizer
     n_categories = args.n_categories
 
-    kw_chunk_size = 10000
+    kw_chunk_size = args.keyword_chunk_size
     kw_start_idx = 0
     kw_end_idx = kw_chunk_size
     more_kw = True
@@ -74,9 +74,7 @@ def main_categorise(args):
             more_kw = False
 
     #keyword_categories = categorizer.categorize(keywords, n_categories=n_categories)
-    print(f"kw_categories type: {type(keyword_categories)} len:{len(keyword_categories)}")
-    print(f"kw_categories[0] type: {type(keyword_categories[0])} len:{len(keyword_categories[0])} val:{keyword_categories[0]}")
-    print(f"kw_categories[0][0] type: {type(keyword_categories[0][0])} len:{len(keyword_categories[0][0])} val:{keyword_categories[0][0]}")
+    print(f"Total {len(keyword_categories)} keywords categorised")
     output_filename = args.path_output
     print(f"Writing categories to: {output_filename}")
     with open(output_filename, "w", encoding="utf8") as outfile:
@@ -115,7 +113,7 @@ if __name__ == '__main__':
     argparser.add_argument('--keywords_column', '-kc', type=str, default='Keyword', help='Name of column containing keywords in the keywords csv file. (default: \'Keyword\')')
     argparser.add_argument('--keywords_filter_column', '-kfc', type=str, default='Country', help='Name of column containing string for filtering rows in the keywords csv file. (default: \'Country\')')
     argparser.add_argument('--keywords_filter_starts_with', '-kfa', type=str, default='', help='Value to check if filter column starts with. (default: \'\')')
-
+    argparser.add_argument('--keyword_chunk_size', '-kcs', type=int, default=100000, help='Split large keyword file into chunks during processing. (default: 100000)')
     args = argparser.parse_args()
 
     main_categorise(args)

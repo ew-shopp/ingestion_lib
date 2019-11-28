@@ -22,7 +22,11 @@ echo "Categorizer: JOB_CAT_CATEGORIES_FULL_PATH: ${JOB_CAT_CATEGORIES_FULL_PATH}
 echo "Categorizer: JOB_CAT_CATEGORIES_COLUMN: ${JOB_CAT_CATEGORIES_COLUMN}"
 echo "Categorizer: JOB_CAT_CATEGORIES_ID_COLUMN: ${JOB_CAT_CATEGORIES_ID_COLUMN}"
 echo "Categorizer: JOB_CAT_KEYWORDS_COUNTRY_CODE: ${JOB_CAT_KEYWORDS_COUNTRY_CODE}"
-
+if [ -z "${JOB_CAT_KEYWORDS_CHUNK_SIZE}"]; then
+	JOB_CAT_KEYWORDS_CHUNK_SIZE=100000
+	echo "**** Setting JOB_CAT_KEYWORDS_CHUNK_SIZE to default ****"
+fi
+echo "Categorizer: JOB_CAT_KEYWORDS_CHUNK_SIZE: ${JOB_CAT_KEYWORDS_CHUNK_SIZE}"
 echo "Normalizer: jar_full_path: ${JOB_NOR_JAR_FULL_PATH}"
 echo '***'
 
@@ -78,6 +82,7 @@ python3 ${code_directory}/categoriser.py \
     --keywords_delimiter ',' \
     --keywords_column 'c15' \
     --keywords_filter_column 'c9' \
+    --keyword_chunk_size ${JOB_CAT_KEYWORDS_CHUNK_SIZE} \
     --keywords_filter_starts_with ${JOB_CAT_KEYWORDS_COUNTRY_CODE}
 
 RESULT=$?
