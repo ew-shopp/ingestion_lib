@@ -5,7 +5,8 @@
 import argparse
 import pandas as pd
 import dask.dataframe as dd
-
+import functools
+print = functools.partial(print, flush=True)
 
 def main_merge(args):
     # Read keyword-csv-file as dast dataframe (sections in RAM)

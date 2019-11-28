@@ -8,7 +8,8 @@ import csv
 import re
 import argparse
 import pdb
-
+import functools
+print = functools.partial(print, flush=True)
 
 def main_categorise(args):
     # load language model
