@@ -91,8 +91,10 @@ def main_categorise(args):
                 if len(categories) == 0:
                     row += ["none"]
                 else:
-                    row += ["#".join([f"{category}({id})" for category, id, distance in categories])]
-                outwriter.writerow(row)
+                    #row += ["#".join([f"{category}({id})" for category, id, distance in categories])]
+                    for category, id, distance in categories:
+                        tmp_row = row + [f"{category}({id})"]
+                        outwriter.writerow(tmp_row)
                 
     print("DONE!")
 
