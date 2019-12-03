@@ -61,6 +61,11 @@ RESULT=$?
 if [ $RESULT -eq 0 ]; then
 	echo '#  Removing temporary files'
 	rm ${work_hdr_path}
+
+	echo '#  Copy the file to output'
+	${code_directory}/copy_to_output.sh \
+	   ${output_directory} \
+	   ${unique_keywords}
 fi
 
 echo '#'
