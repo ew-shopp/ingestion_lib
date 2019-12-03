@@ -80,7 +80,7 @@ def main_categorise(args):
         output_filename = args.path_output
         print(f"Writing categories to: {output_filename}")
         with open(output_filename, "w", encoding="utf8") as outfile:
-            outwriter = csv.writer(outfile, delimiter="\t", quotechar='"')
+            outwriter = csv.writer(outfile, delimiter=",", quotechar='"')
             # write header
             out_header = ["keyword", "categories"]
             outwriter.writerow(out_header)
@@ -91,7 +91,7 @@ def main_categorise(args):
                 if len(categories) == 0:
                     row += ["none"]
                 else:
-                    row += [",".join([f"{category}({id})" for category, id, distance in categories])]
+                    row += ["#".join([f"{category}({id})" for category, id, distance in categories])]
                 outwriter.writerow(row)
                 
     print("DONE!")
