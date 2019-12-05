@@ -1,7 +1,7 @@
 FROM ubuntu:18.04
 
 RUN apt-get --yes update --fix-missing
-RUN apt-get --yes install default-jre
+#RUN apt-get --yes install default-jre
 RUN apt-get --yes install python3-pip --fix-missing 
 
 # Application

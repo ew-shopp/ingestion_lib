@@ -76,7 +76,7 @@ def load_csv_column(path, column_name, delimiter=',', errors='raise'):
     fields = []
     n_skip = 0
     # go over all the csv rows
-    with open(path) as csv_file:
+    with open(path, encoding="utf8") as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=delimiter)
         line_count = 0
         for row in csv_reader:
