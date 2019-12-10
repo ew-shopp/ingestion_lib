@@ -55,8 +55,25 @@ fi
 single_shot_script="${code_directory}/single_shot.sh"
 if [ -f "$single_shot_script" ]; then
     echo "Main - Starting single shot $run_file_name"
-    $single_shot_script $run_file_name "$@" &
-    pid=$!
+
+    if [ "${LOG_JOBS}" -eq "1" ]; then
+        log_directory=${work_directory}/logs
+        mkdir -p $log_directory
+        log_file=${log_directory}/single_shot.log
+
+	start_process=$(date)
+        $single_shot_script $run_file_name "$@" 2>&1 | tee ${log_file} &
+	pid=$!
+
+	end_process=$(date)
+
+	# Append to common log file
+	${code_directory}/append_to_log_common.sh "${log_directory}" "${start_process}" "${end_process}" ${log_file} 
+        
+    else
+        $single_shot_script $run_file_name "$@" &
+        pid=$!
+    fi
 else
     echo "Main - Starting worker $run_file_name"
     $cmd_to_run $run_file_name "$@" &
