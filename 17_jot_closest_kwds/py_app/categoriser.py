@@ -11,6 +11,8 @@ import pdb
 
 from tqdm import tqdm
 
+import functools
+print = functools.partial(print, flush=True)
 
 def main_categorise(args):
     # load language model
