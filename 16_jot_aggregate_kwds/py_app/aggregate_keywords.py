@@ -38,6 +38,9 @@ def load_csv_column_as_set(path, column_name, delimiter=','):
                 line_count += 1
     except Exception as e:
         print(f"Exception reading file {e}")  # Return empty set or whats read.
+
+    # Remove empty string keyword from the set
+    unique_fields.discard("")
     return unique_fields
 
 
