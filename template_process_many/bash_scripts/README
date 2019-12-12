@@ -1,0 +1,5 @@
+Here must two mandatory scripts be present
+  process_job.sh and get_input_file_spec.sh
+
+In addition the script check_input_file.sh can be made if consistency check of the input file is needed.
+
