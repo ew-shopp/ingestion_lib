@@ -1,0 +1,8 @@
+version: '3.7'
+services:
+  app:
+    build: .
+    volumes:
+      - ./input:/input
+      - ./output:/output
+    command: ["0", "code", "input", "work", "output"]
