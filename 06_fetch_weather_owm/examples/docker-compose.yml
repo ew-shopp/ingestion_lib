@@ -1,0 +1,54 @@
+version: '2'
+services:
+  test-owm:
+    image: datagraft/lib_06_fetch_weather_owm
+    environment:
+      WE_INPUT_TYPE: env
+      WE_OWM_KEY: <YOUR_OWM_KEY>
+      WE_REGION_CSV_FILE: /region/milan_region.csv
+      WE_KEY_SEQUENCE: 2t,sf,sp,tcc,tp,ws,rh,region,strRegion,geonameId,validTime,validityDateTime
+      WE_NEW_KEY_SEQUENCE: ',,,,,,,,,,,'
+    stdin_open: true
+    volumes:
+    - <YOUR_BASE_FOLDER>/work:/work
+    - <YOUR_BASE_FOLDER>/in:/out
+    - <YOUR_BASE_FOLDER>/region:/coordinates
+    tty: true
+    user: 1000:1000
+    command:
+    - '0'
+    - /code
+    - /in
+    - /work
+    - /out
+    labels:
+      io.rancher.container.start_once: 'true'
+      io.rancher.container.pull_image: always
+      cron.schedule: 0 0 * * *
+  mysql-upload:
+    image: datagraft/lib_07_uploadtomysql
+    environment:
+      WE_SERVER_ADDR: <YOUR_SERVER_IP_ADDRESS>
+      WE_SERVER_USR: <YOUR_USERNAME>
+      WE_SERVER_PWD: <YOUR_SERVER_PASSWORD>
+      WE_DB_NAME: knowage-db
+      WE_TABLE_NAME: weather_data
+      WE_TABLE_COLUMNS: (2t,sf,sp,tcc,tp,ws,rh,region,strRegion,geonameId,validTime,validityDateTime)
+      LOG_JOBS: '1'
+    stdin_open: true
+    volumes:
+    - <YOUR_BASE_FOLDER>/_out01:/in
+    - <YOUR_BASE_FOLDER>/_work02:/work
+    - <YOUR_BASE_FOLDER>/_out02:/out
+    tty: true
+    user: 1000:1000
+    command:
+    - '0'
+    - /code
+    - /in
+    - /work
+    - /out
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.container.start_once: 'true'
+  
